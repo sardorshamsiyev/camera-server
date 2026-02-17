@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Camera Capture</title>
+</head>
+<body>
+<h1>Rasm olish va Telegramga yuborish</h1>
+<video id="video" width="320" height="240" autoplay></video>
+<button id="snap">Rasm olish</button>
+<canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
+
+<script>
+    // Kamera oqimini olish
+    const video = document.getElementById('video');
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => video.srcObject = stream)
+        .catch(err => console.error(err));
+
+    // Rasm olish va backendga yuborish
+    const snap = document.getElementById('snap');
+    snap.onclick = () => {
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Rasmni base64 ga aylantiramiz
+        const dataURL = canvas.toDataURL('image/jpeg');
+
+        fetch('/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ img: dataURL })
+        }).then(res => res.text())
+            .then(res => alert(res))
+            .catch(err => console.error(err));
+    };
+</script>
+</body>
+</html>

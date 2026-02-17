@@ -1,0 +1,5 @@
+com\example\camera\CameraController.class
+com\example\camera\UploadImage.class
+com\example\camera\TelegramSender.class
+com\example\camera\ImageData.class
+com\example\camera\CameraBotApplication.class
