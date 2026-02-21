@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Telefon Kamera</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="text-align:center; font-family:Arial">
+
+<h2>📱 Telefon Kamerasi</h2>
+
+<video id="video" autoplay playsinline width="300" style="border:2px solid black;"></video>
+
+<br><br>
+
+<button onclick="takePhoto()" style="padding:10px 20px; font-size:18px;">
+    📸 Rasm olish
+</button>
+
+<p id="status"></p>
+
+<canvas id="canvas" style="display:none;"></canvas>
+
+<script>
+    const video = document.getElementById("video");
+    const statusText = document.getElementById("status");
+
+    // 🔓 kamerani yoqish
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+        .then(stream => {
+            video.srcObject = stream;
+        })
+        .catch(err => {
+            statusText.innerText = "❌ Kamera ochilmadi: " + err;
+        });
+
+    // 📸 rasm olish va serverga yuborish
+    function takePhoto() {
+        const canvas = document.getElementById("canvas");
+        const context = canvas.getContext("2d");
+
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        context.drawImage(video, 0, 0);
+
+        canvas.toBlob(function(blob) {
+            const formData = new FormData();
+            formData.append("photo", blob, "photo.jpg");
+
+            statusText.innerText = "⏳ Yuborilmoqda...";
+
+            fetch("/capture", {
+                method: "POST",
+                body: formData
+            })
+                .then(res => res.text())
+                .then(data => {
+                    statusText.innerText = "✅ " + data;
+                })
+                .catch(err => {
+                    statusText.innerText = "❌ Xatolik: " + err;
+                });
+
+        }, "image/jpeg");
+    }
+</script>
+
+</body>
+</html>

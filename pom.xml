@@ -33,12 +33,8 @@
             <version>6.7.0</version>
         </dependency>
 
-        <!-- Webcam capture -->
-        <dependency>
-            <groupId>com.github.sarxos</groupId>
-            <artifactId>webcam-capture</artifactId>
-            <version>0.3.12</version>
-        </dependency>
+        <!-- webcam-capture O'CHIRILDI! -->
+
     </dependencies>
 
     <build>
@@ -51,3 +47,5 @@
     </build>
 
 </project>
+
+

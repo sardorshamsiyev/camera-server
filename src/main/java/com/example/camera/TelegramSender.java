@@ -13,8 +13,8 @@ import java.io.File;
 
 public class TelegramSender {
 
-    private static final String TOKEN = "8275555727:AAHcaJV4EULcJRy1QP5pHqzOvPa-LjTEkOM"; // Bu yerga token qo'y
-    private static final String CHAT_ID = "-5220917100"; // Bu yerga chat_id qo'y
+    private static final String TOKEN = "8275555727:AAHcaJV4EULcJRy1QP5pHqzOvPa-LjTEkOM";
+    private static final String CHAT_ID = "-5220917100";
 
     public static void sendToTelegram(File file) {
         try {
